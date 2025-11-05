@@ -132,7 +132,27 @@
                     <input type="number" id="intervalSeconds" value="0" min="0" max="59">
                 </div>
             </div>
-            <div id="nextPostTime" class="info-text"></div>
+            <div id="nextPostTime" class="info-text">
+                <div id="countdownTimer" style="display: none;">
+                    <h3 style="color: var(--secondary-color); margin-bottom: 1rem;">⏱️ Next Post In:</h3>
+                    <div style="display: flex; gap: 1rem; justify-content: center; font-size: 2rem; font-weight: bold; color: var(--primary-color);">
+                        <div style="text-align: center;">
+                            <div id="hoursDisplay">00</div>
+                            <div style="font-size: 0.8rem; color: var(--text-color); margin-top: 0.5rem;">Hours</div>
+                        </div>
+                        <div style="font-size: 2rem; padding-top: 0.2rem;">:</div>
+                        <div style="text-align: center;">
+                            <div id="minutesDisplay">00</div>
+                            <div style="font-size: 0.8rem; color: var(--text-color); margin-top: 0.5rem;">Minutes</div>
+                        </div>
+                        <div style="font-size: 2rem; padding-top: 0.2rem;">:</div>
+                        <div style="text-align: center;">
+                            <div id="secondsDisplay">00</div>
+                            <div style="font-size: 0.8rem; color: var(--text-color); margin-top: 0.5rem;">Seconds</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

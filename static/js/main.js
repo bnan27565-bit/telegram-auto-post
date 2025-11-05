@@ -265,6 +265,8 @@ async function sendPost() {
 }
 
 // Toggle auto post
+let countdownInterval = null;
+
 async function toggleAutoPost() {
     const enabled = document.getElementById('autoPostToggle')?.checked;
     
@@ -323,9 +325,9 @@ async function toggleAutoPost() {
         );
         
         if (enabled) {
-            updateNextPostTime(totalSeconds);
+            startCountdown(totalSeconds);
         } else {
-            document.getElementById('nextPostTime').innerHTML = '';
+            stopCountdown();
         }
     } catch (error) {
         showNotification('Error updating auto post settings', 'error');
@@ -333,17 +335,52 @@ async function toggleAutoPost() {
     }
 }
 
-// Update next post time
-function updateNextPostTime(totalSeconds) {
-    const now = new Date();
-    const nextPost = new Date(now.getTime() + totalSeconds * 1000);
-    const timeString = nextPost.toLocaleString();
+// Start countdown timer
+function startCountdown(intervalSeconds) {
+    const countdownDiv = document.getElementById('countdownTimer');
+    if (countdownDiv) {
+        countdownDiv.style.display = 'block';
+    }
     
-    const nextPostDiv = document.getElementById('nextPostTime');
-    if (nextPostDiv) {
-        nextPostDiv.innerHTML = `⏰ Next post scheduled for: ${timeString}`;
+    let remainingSeconds = intervalSeconds;
+    
+    // Clear any existing countdown
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+    
+    // Update countdown every second
+    countdownInterval = setInterval(() => {
+        remainingSeconds--;
+        
+        if (remainingSeconds <= 0) {
+            remainingSeconds = intervalSeconds; // Reset for next cycle
+        }
+        
+        const hours = Math.floor(remainingSeconds / 3600);
+        const minutes = Math.floor((remainingSeconds % 3600) / 60);
+        const seconds = remainingSeconds % 60;
+        
+        document.getElementById('hoursDisplay').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutesDisplay').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('secondsDisplay').textContent = String(seconds).padStart(2, '0');
+    }, 1000);
+}
+
+// Stop countdown timer
+function stopCountdown() {
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+    
+    const countdownDiv = document.getElementById('countdownTimer');
+    if (countdownDiv) {
+        countdownDiv.style.display = 'none';
     }
 }
+
+
 
 // Show notification
 function showNotification(message, type = 'info') {
