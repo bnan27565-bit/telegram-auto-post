@@ -4,7 +4,6 @@ window.addEventListener('DOMContentLoaded', () => {
     loadProfileImage();
     loadThemePreference();
     loadAnimationPreference();
-    applyStoredAnimation();
 });
 
 // Load profile data
@@ -299,15 +298,7 @@ function loadAnimationPreference() {
 }
 
 function applyStoredAnimation() {
-    const savedAnimation = localStorage.getItem('animation') || 'slide';
-    if (savedAnimation !== 'none') {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add(savedAnimation === 'fade' ? 'fade-in' : savedAnimation === 'slide' ? 'slide-up' : 'zoom-in');
-            }, index * 100);
-        });
-    }
+    // Disabled for faster performance
 }
 
 // Show notification (same as main.js)

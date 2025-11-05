@@ -5,7 +5,6 @@ const API_URL = '';
 window.addEventListener('DOMContentLoaded', () => {
     loadConfig();
     loadThemePreference();
-    applyStoredAnimation();
 });
 
 // Save configuration
@@ -442,13 +441,5 @@ function loadThemePreference() {
 
 // Apply stored animation
 function applyStoredAnimation() {
-    const savedAnimation = localStorage.getItem('animation') || 'slide';
-    if (savedAnimation !== 'none') {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add(savedAnimation === 'fade' ? 'fade-in' : savedAnimation === 'slide' ? 'slide-up' : 'zoom-in');
-            }, index * 100);
-        });
-    }
+    // Disabled for faster page loads
 }

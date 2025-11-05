@@ -23,19 +23,21 @@ body {
     color: var(--text-color);
     min-height: 100vh;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 /* Navbar - Bottom Navigation */
 .navbar {
-    background: rgba(22, 33, 62, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(22, 33, 62, 0.98);
+    backdrop-filter: blur(20px);
     padding: 0.8rem 0;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 100;
+    border-top: 1px solid rgba(38, 166, 154, 0.2);
 }
 
 .navbar .container {
@@ -109,16 +111,19 @@ body {
 /* Card */
 .card {
     background: var(--card-bg);
-    border-radius: 15px;
+    border-radius: 20px;
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--border-color);
-    transition: transform 0.2s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
 }
 
 .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(38, 166, 154, 0.2);
+    border-color: rgba(38, 166, 154, 0.3);
 }
 
 .card h2 {
@@ -151,11 +156,11 @@ body {
     width: 100%;
     padding: 0.8rem;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
     color: var(--text-color);
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.15s ease;
 }
 
 .form-group input:focus,
@@ -163,6 +168,7 @@ body {
     outline: none;
     border-color: var(--primary-color);
     background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.1);
 }
 
 .form-group textarea {
@@ -178,13 +184,18 @@ body {
 .btn {
     padding: 0.8rem 1.5rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.15s ease;
     text-decoration: none;
     display: inline-block;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: scale(0.98);
 }
 
 .btn-primary {
@@ -195,7 +206,7 @@ body {
 .btn-primary:hover {
     background: #1f8a7f;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(38, 166, 154, 0.3);
+    box-shadow: 0 6px 20px rgba(38, 166, 154, 0.4);
 }
 
 .btn-secondary {
