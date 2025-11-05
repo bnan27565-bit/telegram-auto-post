@@ -66,7 +66,7 @@ body {
     text-decoration: none;
     padding: 0.8rem 1rem;
     border-radius: 12px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,6 +83,11 @@ body {
 
 .nav-links a .nav-icon {
     font-size: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.nav-links a:active .nav-icon {
+    transform: scale(0.9);
 }
 
 .nav-links a .nav-label {
@@ -109,6 +114,11 @@ body {
     margin-bottom: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-color);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
 }
 
 .card h2 {
@@ -603,15 +613,15 @@ body {
 
 /* Animation Effects */
 .fade-in {
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.4s ease;
 }
 
 .slide-up {
-    animation: slideUp 0.5s ease;
+    animation: slideUp 0.4s ease;
 }
 
 .zoom-in {
-    animation: zoomIn 0.5s ease;
+    animation: zoomIn 0.4s ease;
 }
 
 @keyframes fadeIn {
@@ -625,7 +635,7 @@ body {
 
 @keyframes slideUp {
     from {
-        transform: translateY(20px);
+        transform: translateY(30px);
         opacity: 0;
     }
     to {
@@ -636,13 +646,34 @@ body {
 
 @keyframes zoomIn {
     from {
-        transform: scale(0.9);
+        transform: scale(0.95);
         opacity: 0;
     }
     to {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* Page transition */
+.page-transition {
+    animation: pageTransition 0.3s ease;
+}
+
+@keyframes pageTransition {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Main content animation */
+.main-content {
+    animation: slideUp 0.4s ease;
 }
 
 /* Responsive */
