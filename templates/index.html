@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <div id="offlineIndicator" style="display: none; position: fixed; top: 0; left: 0; right: 0; background: #ff9800; color: white; padding: 0.5rem; text-align: center; z-index: 1000; font-weight: bold;">
+        📡 Offline Mode - Some features may not work
+    </div>
+    
     <nav class="navbar">
         <div class="container">
             <ul class="nav-links">
@@ -162,6 +166,20 @@
             navigator.serviceWorker.register('/static/sw.js')
                 .then(() => console.log('Service Worker registered'));
         }
+        
+        // Offline/Online detection
+        function updateOnlineStatus() {
+            const indicator = document.getElementById('offlineIndicator');
+            if (navigator.onLine) {
+                indicator.style.display = 'none';
+            } else {
+                indicator.style.display = 'block';
+            }
+        }
+        
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        window.addEventListener('load', updateOnlineStatus);
     </script>
 </body>
 </html>
