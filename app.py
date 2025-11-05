@@ -23,6 +23,21 @@ scheduler.start()
 # Shut down scheduler on exit
 atexit.register(lambda: scheduler.shutdown())
 
+# Load existing jobs on startup
+def load_scheduled_jobs():
+    config = load_config()
+    if config.get('auto_post_enabled'):
+        interval_seconds = config.get('interval_seconds', 600)
+        if interval_seconds > 0:
+            scheduler.add_job(
+                func=auto_post_job,
+                trigger='interval',
+                seconds=interval_seconds,
+                id='auto_post_job',
+                replace_existing=True
+            )
+            print(f'Auto-post job loaded: every {interval_seconds} seconds')
+
 # Load or create config
 def load_config():
     if os.path.exists(CONFIG_FILE):
@@ -364,9 +379,20 @@ def toggle_auto_post():
             id='auto_post_job',
             replace_existing=True
         )
+        print(f'Auto-post enabled: every {interval_seconds} seconds')
+    else:
+        print('Auto-post disabled')
     
     return jsonify({'status': 'success', 'message': 'Auto post settings updated'})
 
+@app.route('/api/ping', methods=['GET'])
+def ping():
+    """Keep-alive endpoint"""
+    return jsonify({'status': 'ok', 'time': datetime.now().isoformat()})
+
 if __name__ == '__main__':
+    # Load scheduled jobs on startup
+    load_scheduled_jobs()
+    
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
