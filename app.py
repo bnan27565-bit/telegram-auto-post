@@ -5,6 +5,8 @@ from datetime import datetime
 import json
 import requests
 import base64
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -13,6 +15,13 @@ CORS(app)
 # Configuration file path
 CONFIG_FILE = 'config.json'
 POSTS_FILE = 'posts.json'
+
+# Initialize scheduler
+scheduler = BackgroundScheduler()
+scheduler.start()
+
+# Shut down scheduler on exit
+atexit.register(lambda: scheduler.shutdown())
 
 # Load or create config
 def load_config():
@@ -283,14 +292,79 @@ def send_post():
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'Error: {str(e)}'})
 
+def auto_post_job():
+    """Job that runs periodically to send posts"""
+    config = load_config()
+    
+    if not config.get('auto_post_enabled'):
+        return
+    
+    bot_token = config.get('bot_token')
+    chat_id = config.get('chat_id')
+    
+    if not bot_token or not chat_id:
+        return
+    
+    # Get current day
+    current_day = datetime.now().strftime('%A').lower()
+    selected_days = config.get('selected_days', [])
+    
+    # Check if today is a selected day
+    if current_day not in selected_days:
+        return
+    
+    try:
+        # Send a test message (you can customize this)
+        send_url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+        message_data = {
+            'chat_id': chat_id,
+            'text': f'⏰ Auto Post - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        }
+        
+        response = requests.post(send_url, json=message_data, timeout=10)
+        
+        if response.json().get('ok'):
+            # Save to posts history
+            posts_list = load_posts()
+            posts_list.append({
+                'id': len(posts_list) + 1,
+                'caption': message_data['text'],
+                'has_media': False,
+                'timestamp': datetime.now().isoformat(),
+                'status': 'auto-sent'
+            })
+            save_posts(posts_list)
+    except Exception as e:
+        print(f'Auto post error: {str(e)}')
+
 @app.route('/api/auto-post', methods=['POST'])
 def toggle_auto_post():
     data = request.json
     config = load_config()
-    config['auto_post_enabled'] = data.get('enabled', False)
-    config['interval_seconds'] = data.get('interval_seconds', 600)
-    config['selected_days'] = data.get('selected_days', [])
+    
+    enabled = data.get('enabled', False)
+    interval_seconds = data.get('interval_seconds', 600)
+    selected_days = data.get('selected_days', [])
+    
+    config['auto_post_enabled'] = enabled
+    config['interval_seconds'] = interval_seconds
+    config['selected_days'] = selected_days
     save_config(config)
+    
+    # Remove existing job if any
+    if scheduler.get_job('auto_post_job'):
+        scheduler.remove_job('auto_post_job')
+    
+    # Add new job if enabled
+    if enabled and interval_seconds > 0:
+        scheduler.add_job(
+            func=auto_post_job,
+            trigger='interval',
+            seconds=interval_seconds,
+            id='auto_post_job',
+            replace_existing=True
+        )
+    
     return jsonify({'status': 'success', 'message': 'Auto post settings updated'})
 
 if __name__ == '__main__':
