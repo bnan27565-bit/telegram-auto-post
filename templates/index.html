@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Auto Post - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li>
+                    <a href="/" class="active">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-label">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/about">
+                        <span class="nav-icon">ℹ️</span>
+                        <span class="nav-label">About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-label">Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1 style="color: var(--primary-color); margin-bottom: 2rem; text-align: center;">Telegram Auto Post</h1>
+        <div class="card">
+            <h2>Configuration</h2>
+            <div class="form-group">
+                <label for="botToken">Bot Token</label>
+                <input type="text" id="botToken" placeholder="Enter your bot token" value="8542418712:AAEsPtQp4lIFvgZysDoyDVB419U5y0z8FYc">
+            </div>
+            <div class="form-group">
+                <label for="chatId">Group/Channel ID</label>
+                <input type="text" id="chatId" placeholder="Enter group or channel ID" value="1136134338">
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="saveConfig()">Save Configuration</button>
+                <button class="btn btn-info" onclick="testConnection()">🔍 Test Connection</button>
+                <button class="btn btn-secondary" onclick="findChatId()">🔎 Find Group ID</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Create Post</h2>
+            <div class="form-group">
+                <label for="caption">Caption</label>
+                <textarea id="caption" rows="6" placeholder="Enter your caption here..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="mediaFiles">Media Files (Optional)</label>
+                <input type="file" id="mediaFiles" multiple accept="image/*,video/*">
+                <div id="mediaPreview" class="media-preview"></div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="selectMedia()">Select Media</button>
+                <button class="btn btn-success" onclick="sendPost()">Send Post</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Auto Post Schedule</h2>
+            <div class="toggle-container">
+                <label class="toggle-label">
+                    <span>Enable Auto Post</span>
+                    <input type="checkbox" id="autoPostToggle" onchange="toggleAutoPost()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);">Select Days of Week</h3>
+            <div class="days-selector">
+                <label class="day-checkbox">
+                    <input type="checkbox" value="monday" class="day-input">
+                    <span class="day-label">Monday</span>
+                </label>
+                <label class="day-checkbox">
+                    <input type="checkbox" value="tuesday" class="day-input">
+                    <span class="day-label">Tuesday</span>
+                </label>
+                <label class="day-checkbox">
+                    <input type="checkbox" value="wednesday" class="day-input">
+                    <span class="day-label">Wednesday</span>
+                </label>
+                <label class="day-checkbox">
+                    <input type="checkbox" value="thursday" class="day-input">
+                    <span class="day-label">Thursday</span>
+                </label>
+                <label class="day-checkbox">
+                    <input type="checkbox" value="friday" class="day-input">
+                    <span class="day-label">Friday</span>
+                </label>
+                <label class="day-checkbox">
+                    <input type="checkbox" value="saturday" class="day-input">
+                    <span class="day-label">Saturday</span>
+                </label>
+                <label class="day-checkbox">
+                    <input type="checkbox" value="sunday" class="day-input">
+                    <span class="day-label">Sunday</span>
+                </label>
+            </div>
+            
+            <h3 style="margin-top: 1.5rem; color: var(--secondary-color);">Posting Interval</h3>
+            <div class="interval-controls">
+                <div class="form-group">
+                    <label for="intervalHours">Hours</label>
+                    <input type="number" id="intervalHours" value="0" min="0" max="23">
+                </div>
+                <div class="form-group">
+                    <label for="intervalMinutes">Minutes</label>
+                    <input type="number" id="intervalMinutes" value="10" min="0" max="59">
+                </div>
+                <div class="form-group">
+                    <label for="intervalSeconds">Seconds</label>
+                    <input type="number" id="intervalSeconds" value="0" min="0" max="59">
+                </div>
+            </div>
+            <div id="nextPostTime" class="info-text"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

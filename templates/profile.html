@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Auto Post - Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li>
+                    <a href="/">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-label">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/about">
+                        <span class="nav-icon">ℹ️</span>
+                        <span class="nav-label">About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile" class="active">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-label">Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1 style="color: var(--primary-color); margin-bottom: 2rem; text-align: center;">Profile</h1>
+        
+        <div class="card">
+            <div class="profile-image-container">
+                <div id="profileImagePreview">
+                    <div class="profile-image-placeholder">👤</div>
+                </div>
+                <div class="upload-btn-wrapper">
+                    <button class="btn btn-primary" onclick="selectProfileImage()">📷 Upload Photo</button>
+                    <input type="file" id="profileImageInput" accept="image/*" onchange="handleProfileImage(event)">
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Profile Settings</h2>
+            
+            <div class="profile-section">
+                <h3>Bot Information</h3>
+                <div class="info-row">
+                    <span class="info-label">Bot Token:</span>
+                    <span id="profileBotToken" class="info-value">Not configured</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Channel/Group ID:</span>
+                    <span id="profileChatId" class="info-value">Not configured</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Auto Post Status:</span>
+                    <span id="profileAutoPost" class="info-value badge">Disabled</span>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalPosts">0</div>
+                        <div class="stat-label">Total Posts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayPosts">0</div>
+                        <div class="stat-label">Posts Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="scheduledPosts">0</div>
+                        <div class="stat-label">Scheduled</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Data Management</h3>
+                <div class="button-group">
+                    <button class="btn btn-info" onclick="backupData()">📦 Backup Data</button>
+                    <button class="btn btn-warning" onclick="restoreData()">♻️ Restore Data</button>
+                    <button class="btn btn-danger" onclick="clearData()">🗑️ Clear All Data</button>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Theme Settings</h3>
+                <div class="theme-selector">
+                    <button class="theme-btn" onclick="setTheme('light')">
+                        <span class="theme-icon">☀️</span>
+                        <span>Light</span>
+                    </button>
+                    <button class="theme-btn" onclick="setTheme('dark')">
+                        <span class="theme-icon">🌙</span>
+                        <span>Dark</span>
+                    </button>
+                    <button class="theme-btn active" onclick="setTheme('ocean')">
+                        <span class="theme-icon">🌊</span>
+                        <span>Ocean</span>
+                    </button>
+                    <button class="theme-btn" onclick="setTheme('sunset')">
+                        <span class="theme-icon">🌅</span>
+                        <span>Sunset</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Animation Effects</h3>
+                <div class="animation-selector">
+                    <button class="animation-btn" onclick="setAnimation('fade')">
+                        <span class="theme-icon">✨</span>
+                        <span>Fade In</span>
+                    </button>
+                    <button class="animation-btn active" onclick="setAnimation('slide')">
+                        <span class="theme-icon">⬆️</span>
+                        <span>Slide Up</span>
+                    </button>
+                    <button class="animation-btn" onclick="setAnimation('zoom')">
+                        <span class="theme-icon">🔍</span>
+                        <span>Zoom In</span>
+                    </button>
+                    <button class="animation-btn" onclick="setAnimation('none')">
+                        <span class="theme-icon">🚫</span>
+                        <span>None</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+</body>
+</html>

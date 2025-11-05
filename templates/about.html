@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Auto Post - About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li>
+                    <a href="/">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-label">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/about" class="active">
+                        <span class="nav-icon">ℹ️</span>
+                        <span class="nav-label">About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-label">Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1 style="color: var(--primary-color); margin-bottom: 2rem; text-align: center;">About</h1>
+        <div class="card">
+            <h2>About Telegram Auto Post</h2>
+            <p>Telegram Auto Post is a powerful tool that helps you automate posting to your Telegram channels and groups.</p>
+            
+            <h3>Features</h3>
+            <ul class="feature-list">
+                <li>📱 Easy-to-use web interface</li>
+                <li>🤖 Automated posting with custom intervals</li>
+                <li>📸 Support for media files (images and videos)</li>
+                <li>⏰ Schedule posts at specific times</li>
+                <li>💾 Backup and restore functionality</li>
+                <li>🎨 Customizable themes</li>
+            </ul>
+
+            <h3>How to Use</h3>
+            <ol class="steps-list">
+                <li>Create a Telegram bot using <a href="https://t.me/BotFather" target="_blank">@BotFather</a></li>
+                <li>Get your bot token from BotFather</li>
+                <li>Add your bot to your channel/group and make it an admin</li>
+                <li>Get your channel/group ID</li>
+                <li>Enter the bot token and channel ID in the configuration</li>
+                <li>Start creating and scheduling posts!</li>
+            </ol>
+
+            <h3>Technology Stack</h3>
+            <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Flask</span>
+                <span class="tech-badge">HTML</span>
+                <span class="tech-badge">CSS</span>
+                <span class="tech-badge">JavaScript</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
