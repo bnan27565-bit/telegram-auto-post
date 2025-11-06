@@ -328,27 +328,29 @@ def auto_post_job():
     if current_day not in selected_days:
         return
     
+    # Get saved posts to send
+    posts_list = load_posts()
+    
+    # If no posts, send a default message
+    if not posts_list or len(posts_list) == 0:
+        message_text = f'⏰ Auto Post - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n\nNo posts created yet. Create a post first!'
+    else:
+        # Send the most recent post
+        latest_post = posts_list[-1]
+        message_text = latest_post.get('caption', 'Auto Post')
+    
     try:
-        # Send a test message (you can customize this)
+        # Send message
         send_url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         message_data = {
             'chat_id': chat_id,
-            'text': f'⏰ Auto Post - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+            'text': message_text
         }
         
         response = requests.post(send_url, json=message_data, timeout=10)
         
         if response.json().get('ok'):
-            # Save to posts history
-            posts_list = load_posts()
-            posts_list.append({
-                'id': len(posts_list) + 1,
-                'caption': message_data['text'],
-                'has_media': False,
-                'timestamp': datetime.now().isoformat(),
-                'status': 'auto-sent'
-            })
-            save_posts(posts_list)
+            print(f'Auto post sent at {datetime.now()}')
     except Exception as e:
         print(f'Auto post error: {str(e)}')
 
