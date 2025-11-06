@@ -307,6 +307,32 @@ def send_post():
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'Error: {str(e)}'})
 
+@app.route('/api/save-post', methods=['POST'])
+def save_post():
+    """Save post without sending (for auto-posting later)"""
+    data = request.json
+    caption = data.get('caption', '')
+    media_files = data.get('media', [])
+    
+    if not caption:
+        return jsonify({'status': 'error', 'message': 'Caption is required'})
+    
+    try:
+        # Save post to history
+        posts_list = load_posts()
+        posts_list.append({
+            'id': len(posts_list) + 1,
+            'caption': caption,
+            'has_media': len(media_files) > 0,
+            'timestamp': datetime.now().isoformat(),
+            'status': 'saved'
+        })
+        save_posts(posts_list)
+        
+        return jsonify({'status': 'success', 'message': f'Post saved! Auto-post will send: "{caption[:50]}..."'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': f'Error: {str(e)}'})
+
 def auto_post_job():
     """Job that runs periodically to send posts"""
     config = load_config()

@@ -264,6 +264,41 @@ async function sendPost() {
     }
 }
 
+// Save post for auto-send (without sending now)
+async function savePostForAutoSend() {
+    const caption = document.getElementById('caption')?.value;
+    
+    if (!caption) {
+        showNotification('Please enter caption to save', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_URL}/api/save-post`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                caption: caption,
+                media: selectedMediaFiles
+            })
+        });
+        
+        const result = await response.json();
+        showNotification(result.message, result.status === 'success' ? 'success' : 'error');
+        
+        if (result.status === 'success') {
+            document.getElementById('caption').value = '';
+            selectedMediaFiles = [];
+            document.getElementById('mediaPreview').innerHTML = '';
+        }
+    } catch (error) {
+        showNotification('Error saving post', 'error');
+        console.error(error);
+    }
+}
+
 // Toggle auto post
 let countdownInterval = null;
 
